@@ -2,24 +2,25 @@
 <html = style="height: 100%;">
   <head>
     <title>Johto Kanto Map</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="scripts/leaflet.css">
-    <script src="scripts/leaflet.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- basic viewport settings -->
+    <link rel="stylesheet" href="scripts/leaflet.css"> <!-- including leaflet css -->
+    <script src="scripts/leaflet.js"></script> <!-- including leaflet javascript as well for defining and adding the markers among other things below -->
   </head>
   
-  <body style="height: 100%;margin: 0;">
-    <div id="map" style="width: 100%; height: 100%; background: #BAE7F1;"></div>
-    <script type="text/javascript">
+  <body style="height: 100%;margin: 0;"> <!-- basic body formatting -->
+    <div id="map" style="width: 100%; height: 100%; background: #BAE7F1; overflow: hidden;"></div> <!-- map container, setting background to same shade of light blue as water -->
+    <script type="text/javascript"> //JS code for creating the map and the markers
   //Creating the Map
-    var map = L.map('map').setView([0, 0], 0);
-    L.tileLayer('map/{z}/{x}/{y}.png', {
-      continuousWorld: false,
-      noWrap: true,  
-      minZoom: 3,
-      maxZoom: 4,
+    var basicMap = L.map('map').setView([0, 0], 0); // basic specifications
+    L.tileLayer('map/{z}/{x}/{y}.png', { // adding a title layer
+      continuousWorld: false, // disable horizontal wrapping
+      noWrap: true,  // disable vertical wrapping
+      // only setting 2 zoom levels because <3 too small and >4 shows only background
+      zoomOut: 3,
+      zoomIn: 4,
     }).addTo(map);
 
-  //Markers
+  // Data for all 44 markers
   var locations = [
   { id: 'johto_safari-zone', name: 'Safari Zone', type: 'Other', region: 'Johto', lat: -5.353571, lng: -101.953125 },
   { id: 'johto_cianwood-city', name: 'Cianwood City', type: 'City', region: 'Johto', lat: -13.757441, lng: -90.087891 },
@@ -39,9 +40,11 @@
   { id: 'johto_lake-of-rage', name: 'Lake Of Rage', type: 'Other', region: 'Johto', lat: 34.9056, lng: -35.419922 },
   { id: 'johto_ice-path', name: 'Ice Path', type: 'Other', region: 'Johto', lat: 18.992144, lng: -21.445312 },
   { id: 'johto_blackthorn-city', name: 'Blackthorn City', type: 'City', region: 'Johto', lat: 18.992144, lng: -15.029297 },
+  // Dark Caves have 3 separate marker locations, but they will all lead to the same subpage later on. 
   { id: 'johto_dark-cave', name: 'Dark Cave North', type: 'Other', region: 'Johto', lat: 11.18754, lng: -15.029297 },
   { id: 'johto_dark-cave-south', name: 'Dark Cave South', type: 'Other', region: 'Johto', lat: -5.441121, lng: -20.478516 },
   { id: 'johto_dark-cave-west', name: 'Dark Cave West', type: 'Other', region: 'Johto', lat: 3.957131, lng: -29.707031 },
+   // Resume
   { id: 'johto_cherrygrove-city', name: 'Cherrygrove City', type: 'City', region: 'Johto', lat: -16.979186, lng: -29.707031 },
   { id: 'johto_new-bark-town', name: 'New Bark Town', type: 'Town', region: 'Johto', lat: -16.979186, lng: -11.25 },
   { id: 'johto_tohjo-falls', name: 'Tohjo Falls', type: 'Other', region: 'Johto', lat: -16.979186, lng: -0.0439453 },
@@ -65,16 +68,17 @@
   { id: 'kanto_seafoam-islands', name: 'Seafoam Islands', type: 'Other', region: 'Kanto', lat: -33.020028, lng: 46.40625 },
   { id: 'kanto_cinnabar-island', name: 'Cinnabar Island', type: 'Other', region: 'Kanto', lat: -33.020028, lng: 31.816406 },
   { id: 'kanto_pallet-town', name: 'Pallet Town', type: 'Town', region: 'Kanto', lat: -18.087182, lng: 31.816406 },
-  // ... Add the rest of your locations here ...
 ];
 
-locations.forEach(function (location) {
-    var marker = L.marker([location.lat, location.lng]).addTo(map);
-    var subpageName = location.id.toLowerCase() + '.html'; // Generate subpage name
+locations.forEach(function (location) { // loop through all 'locations' to add their 'marker's to the map 
+    var marker = L.marker([location.lat, location.lng]).addTo(map); // add marker for each latitude/longitude location
+    var subpgName = location.id.toLowerCase() + '.html'; // generate le subpage name with HTML file extension
+  
+    // binds popup content to appear when the user clicks on the marker and displays the following in the popup
     marker.bindPopup('<b>' + location.name + '</b><br>' +
     'Location Type: ' + location.type + '<br>' +
     'Region: ' + location.region + '<br>' +
-    '<a href="map/subpages/' + location.id.toLowerCase() + '.html">More info &raquo;</a>');
+    '<a href="map/subpages/' + location.id.toLowerCase() + '.html">More info >></a>'); // hopefully this works and doesn't look too bad
 
   });
     </script>
