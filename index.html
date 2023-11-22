@@ -71,7 +71,7 @@
 ];
 
 locations.forEach(function (location) { // loop through all 'locations' to add their 'marker's to the map 
-    var marker = L.marker([location.lat, location.lng]).addTo(map); // add marker for each latitude/longitude location
+    var marker = L.marker([location.lat, location.lng]).addTo(basicMap); // add marker for each latitude/longitude location
     var subpgName = location.id.toLowerCase() + '.html'; // generate le subpage name with HTML file extension
   
     // binds popup content to appear when the user clicks on the marker and displays the following in the popup
