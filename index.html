@@ -51,10 +51,10 @@
   // Resume
   { id: 'johto_cherrygrove-city', name: 'Cherrygrove City', type: 'City', region: 'Johto', lat: -16.979186, lon: -29.707031 },
   { id: 'johto_new-bark-town', name: 'New Bark Town', type: 'Town', region: 'Johto', lat: -16.979186, lon: -11.25 },
-  { id: 'johto_tohjo-falls', name: 'Tohjo Falls', type: 'Other', region: 'Johto', lat: -16.979186, lon: -0.0439453 },
+  { id: 'johto_tohjo-falls', name: 'Tohjo Falls', type: 'Other', region: 'Johto', lat: -16.879186, lon: -0.3839453 },
   { id: 'johto_mt-silver', name: 'Mt Silver', type: 'Other', region: 'Johto', lat: 0.178853, lon: -0.0439453 },
-  { id: 'kanto_indigo-plateau', name: 'Indigo Plateau', type: 'Other', region: 'Kanto', lat: 30.239124, lon: 14.677734 },
-  { id: 'kanto_victory-road', name: 'Victory Road', type: 'Other', region: 'Kanto', lat: 18.992144, lon: 14.677734 },
+  { id: 'kanto_indigo-plateau', name: 'Indigo Plateau', type: 'City', region: 'Kanto', lat: 30.239124, lon: 14.677734 },
+  { id: 'kanto_victory-road', name: 'Victory Road', type: 'Other', region: 'Kanto', lat: 18.632144, lon: 14.607734 },
   { id: 'kanto_viridian-city', name: 'Viridian City', type: 'City', region: 'Kanto', lat: 0.178853, lon: 31.816406 },
   { id: 'kanto_viridian-forest', name: 'Viridian Forest', type: 'Other', region: 'Kanto', lat: 12.638404, lon: 31.816406 },
   { id: 'kanto_digletts-cave-nw', name: 'Digletts Cave NW', type: 'Other', region: 'Kanto', lat: 20.14075, lon: 31.816406 },
@@ -70,36 +70,61 @@
   { id: 'kanto_celadon-city', name: 'Celadon City', type: 'City', region: 'Kanto', lat: 10.737428, lon: 50.537109 },
   { id: 'kanto_fuschia-city', name: 'Fuschia City', type: 'City', region: 'Kanto', lat: -24.95379, lon: 60.556641 },
   { id: 'kanto_seafoam-islands', name: 'Seafoam Islands', type: 'Other', region: 'Kanto', lat: -33.020028, lon: 46.40625 },
-  { id: 'kanto_cinnabar-island', name: 'Cinnabar Island', type: 'Other', region: 'Kanto', lat: -33.020028, lon: 31.816406 },
+  { id: 'kanto_cinnabar-island', name: 'Cinnabar Island', type: 'Town', region: 'Kanto', lat: -33.020028, lon: 31.816406 },
   { id: 'kanto_pallet-town', name: 'Pallet Town', type: 'Town', region: 'Kanto', lat: -18.087182, lon: 31.816406 },
 ];
 
 locations.forEach(function (location) { // loop through all 'locations' to add their 'marker's to the map 
-            var buttonMarker = L.marker([location.lat, location.lon], {
-                icon: L.divIcon({
-                    className: 'button-marker',
-                    iconSize: [30, 30], // will need to create a formula to fix this later
-                    html: '<button class="marker-button"></button>' // making the button the marker
-                })
-            }).addTo(basicMap); // adding to the map
+    var marker;
 
-            var subpageName = location.id.toLowerCase() + '.html';
-
-            buttonMarker.bindPopup('<b>' + location.name + '</b><br>' +
-                'Location Type: ' + location.type + '<br>' +
-                'Region: ' + location.region + '<br>' +
-                '<a href="map/subpages/' + location.id.toLowerCase() + '.html">More info >></a>');
-
-            // Mouse over effect so when the user hovers over the marker, it "turns" blue
-            buttonMarker.on('mouseover', function () {
-                document.querySelector('.marker-button').style.backgroundColor = '#00a2cf';
-            });
-
-            // When the user hovers off, the marker, it reverts back to normal
-            buttonMarker.on('mouseout', function () {
-                document.querySelector('.marker-button').style.backgroundColor = '';
-            });
+    if (location.type.toLowerCase() === 'other') {
+        // Circular marker for type 'Other'
+        marker = L.circle([location.lat, location.lon], {
+            radius: 275000,
+            color: '#00a2cf',
+            fillColor: '#00a2cf',
+            fillOpacity: 0, // Set fillOpacity to 0 initially
         });
+    } else {
+        // Square marker for non-circles types
+        marker = L.marker([location.lat, location.lon], {
+            icon: L.divIcon({
+                className: 'button-marker',
+                iconSize: [30, 30],
+                html: '<button class="marker-button"></button>'
+            })
+        });
+    }
+
+    marker.addTo(basicMap); // adding to the map
+
+    var subpageName = location.id.toLowerCase() + '.html';
+    var popup = L.popup({ autoClose: false }) // Set autoClose to false initially
+        .setContent('<b>' + location.name + '</b><br>' +
+            'Location Type: ' + location.type + '<br>' +
+            'Region: ' + location.region + '<br>' +
+            '<a href="map/subpages/' + location.id.toLowerCase() + '.html">More info >></a>');
+
+    marker.bindPopup(popup);
+
+    // Mouse over effect so when the user hovers over the marker, it "turns" blue and shows the popup
+    marker.on('mouseover', function (event) {
+        if (location.type.toLowerCase() !== 'other') {
+            event.target._icon.querySelector('.marker-button').style.backgroundColor = '#00a2cf';
+            marker.setStyle({ fillOpacity: 1 }); // Show the circle
+            marker.openPopup(); // Manually open the popup
+        }
+    });
+
+    // When the user hovers off, the marker, it reverts back to normal and hides the popup
+    marker.on('mouseout', function (event) {
+        if (location.type.toLowerCase() !== 'other') {
+            event.target._icon.querySelector('.marker-button').style.backgroundColor = '';
+            marker.setStyle({ fillOpacity: 0 }); // Hide the circle
+            marker.closePopup(); // Manually close the popup
+        }
+    });
+});
     </script>
     <style>
         .button-marker {
@@ -120,7 +145,5 @@ locations.forEach(function (location) { // loop through all 'locations' to add t
             background-color: #2dd0fd;
         }
     </style>
-
 </body>
-
 </html>
