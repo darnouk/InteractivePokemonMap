@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Template Location</title>
+        <style>
+            @font-face {
+            font-family: "PokemonFont";
+            src: url("/Pokemon Solid.ttf") format("truetype");
+            }
+            body {
+                background-color: #333; /* Dark gray background */
+                color: yellow; /* Yellow text color */
+                margin: 0; /* Remove default body margin */
+                padding: 0; /* Remove default body padding */
+            }
+
+            h1 {
+                text-shadow:
+                    -1px -1px 8px #3765b0,
+                    0 -1px 8px #3765b0,
+                    1px -1px 8px #3765b0,
+                    1px 0 8px #3765b0,
+                    1px 1px 8px #3765b0,
+                    0 1px 8px #3765b0,
+                    -1px 1px 8px #3765b0,
+                    -1px 0 8px #3765b0;
+
+                font-family: 'PokemonFont', sans-serif; /* Assuming you have loaded the Pokemon font */
+                text-align: center;
+                padding: 1em;
+                background-color: #555; /* Light gray background for the header */
+                margin-bottom: 80px; /* Add margin between the title and the quote */
+            }
+
+            h1, p {
+                margin: 0; /* Reset margin for h1 and p to ensure no extra spacing */
+            }
+
+            section {
+                padding: 80px;
+            }
+
+            h8 {
+                font-size: 1.5em;
+                font-weight: bold;
+                text-decoration: underline;
+                margin-bottom: 10px;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            li {
+                margin-bottom: 10px;
+            }
+
+            li img {
+                width: 20px; /* Adjust the width of the pokeball image as needed */
+                margin-right: 10px; /* Space between the image and text */
+                vertical-align: middle; /* Align the image vertically with the text */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Battle Frontier</h1>
+
+        <!-- Description of the location -->
+        <p style="text-align: center; font-style: italic;">"Here is a neat description of Battle Frontier."</p>
+
+        <section>
+            <h8>Hidden Items</h8>
+            <ul>
+                <li><img src="pokeball.png" alt="Pokeball"> Hidden Item 1: Location.</li>
+                <!-- Add more bullet points as needed -->
+            </ul>
+        </section>
+
+        <section>
+            <h8>Fun Facts</h8>
+            <ul>
+                <li><img src="pokeball.png" alt="Pokeball"> Fun Fact 1.</li>
+                <!-- Add more bullet points as needed -->
+            </ul>
+        </section>
+
+        <section>
+            <h8>Important Buildings</h8>
+            <ul>
+                <li><img src="pokeball.png" alt="Pokeball"> Building 1: Reason for importance.</li>
+                <li><img src="pokeball.png" alt="Pokeball"> Building 2: Reason for importance.</li>
+                <!-- Add more bullet points as needed -->
+            </ul>
+        </section>
+
+        <!-- Add an image from the same folder -->
+        <img src="AzaleaTown.webp" alt="This is an image of Battle Frontier">    
+    </body>
+</html>
